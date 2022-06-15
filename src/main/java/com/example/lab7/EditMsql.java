@@ -1,20 +1,24 @@
 package com.example.lab7;
-import com.example.lab7.MyDB;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.*;
+
 
 import com.mysql.jdbc.Driver;
 
-public class TestSelect {
-    public static void main(String[] args) throws SQLException {
+
+public class EditMsql {
+    public static void main(String[] args) throws SQLException{
         MyDB db = new MyDB("localhost", "mydb", 3306);
         db.setUser("root");
         db.setPassword("38050");
         Connection conn = db.getConnection();
-        if (conn != null) {
+        if (conn != null){
             Statement polecenie = conn.createStatement();
+            Number dostawa = 100;
+            polecenie.executeUpdate("UPDATE coffee_houses SET COFFEE = COFFEE + " + dostawa + "WHERE CITY = 'SF'");
+
             ResultSet res = polecenie.executeQuery("SELECT * FROM coffee_houses");
             System.out.printf("%10s%20s%7s%7s%7s\n", "STORE_ID", "CITY", "COFFE", "MERCH", "TOTAL");
             while (res.next()) {
@@ -26,4 +30,3 @@ public class TestSelect {
         System.out.println("Polaczenie zakonczone");
     }
 }
-
